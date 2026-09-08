@@ -43,7 +43,7 @@ if prompt := st.chat_input("Napište zprávu pro Majka..."):
         try:
             from google.genai import types
             response = client.models.generate_content(
-                model="gemini-3.6-flash",
+                model="gemini-2.5-flash",
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     system_instruction=SYSTEM_INSTRUCTION,
