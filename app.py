@@ -34,8 +34,8 @@ if prompt := st.chat_input("Napište zprávu pro Majka..."):
     # Odpověď od modelu Gemini
     with st.chat_message("assistant"):
         try:
-            response = client.models.generate_content(
-                model="gemini-2.5-flash",
+          response = client.models.generate_content(
+                model="gemini-3.6-flash",
                 contents=prompt,
             )
             answer = response.text
