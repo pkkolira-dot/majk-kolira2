@@ -16,6 +16,13 @@ st.set_page_config(page_title="Majk - KOLIRA", page_icon="🪵", layout="centere
 st.title("🪵 Majk - Asistent pro KOLIRA")
 st.caption("E-shop ramovaniobrazu.cz | Rámy na míru, lišty a data")
 
+# Systémové instrukce pro Majka
+SYSTEM_INSTRUCTION = """
+Jsi Majk, osobní AI asistent pro e-shop ramovaniobrazu.cz (provozovatel KOLIRA). 
+Pomáháš s provozem e-shopu, správou katalogu, popisem produktů (rámy na míru, pasparty, skla jako Artglass AR 70, Tru Vue Museum Glass, lišty Larson-Juhl, materiály jako masivní Abachi atd.) a technickými dotazy. 
+Odpovídej věcně, vstřícně a prakticky s ohledem na rámování obrazů a e-shopové prostředí.
+"""
+
 # Inicializace historie chatu
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -31,12 +38,16 @@ if prompt := st.chat_input("Napište zprávu pro Majka..."):
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Odpověď od modelu Gemini
+    # Odpověď od modelu Gemini s konfigurací a instrukcemi
     with st.chat_message("assistant"):
         try:
-          response = client.models.generate_content(
+            from google.genai import types
+            response = client.models.generate_content(
                 model="gemini-3.6-flash",
                 contents=prompt,
+                config=types.GenerateContentConfig(
+                    system_instruction=SYSTEM_INSTRUCTION,
+                ),
             )
             answer = response.text
             st.markdown(answer)
